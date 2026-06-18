@@ -1,52 +1,101 @@
 const https = require('https');
-const fs = require('fs');
-const path = require('path');
 
 const API_KEY = 'b7f4523a2534c0dd01afd053fd6191e1';
 
 const LEAGUES = [
-  { id: 39,  name: 'Premier League', country: 'England' },
-  { id: 140, name: 'La Liga',        country: 'Spain'   },
-  { id: 78,  name: 'Bundesliga',     country: 'Germany' },
-  { id: 135, name: 'Serie A',        country: 'Italy'   },
-  { id: 61,  name: 'Ligue 1',        country: 'France'  },
-  { id: 203, name: 'Süper Lig',      country: 'Turkey'  },
+  { id: 39,  name: 'Premier League', country: 'England', slug: 'premier-league' },
+  { id: 140, name: 'La Liga',        country: 'Spain',   slug: 'la-liga'        },
+  { id: 78,  name: 'Bundesliga',     country: 'Germany', slug: 'bundesliga'     },
+  { id: 135, name: 'Serie A',        country: 'Italy',   slug: 'serie-a'        },
+  { id: 61,  name: 'Ligue 1',        country: 'France',  slug: 'ligue-1'        },
+  { id: 203, name: 'Süper Lig',      country: 'Turkey',  slug: 'super-lig'      },
 ];
 
 const SEASON = 2024;
 
-function fetchFixtures(leagueId) {
+function apiGet(path) {
   return new Promise((resolve, reject) => {
     const options = {
       hostname: 'v3.football.api-sports.io',
-      path: `/fixtures?league=${leagueId}&season=${SEASON}`,
+      path,
       method: 'GET',
-      headers: {
-        'x-apisports-key': API_KEY,
-      },
+      headers: { 'x-apisports-key': API_KEY },
     };
-
     const req = https.request(options, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
-        try {
-          resolve(JSON.parse(data));
-        } catch (e) {
-          reject(e);
-        }
+        try { resolve(JSON.parse(data)); }
+        catch (e) { reject(e); }
       });
     });
-
     req.on('error', reject);
     req.end();
   });
 }
 
-async function main() {
-  const allFixtures = {};
+function toLeaguesJson(leaguesMeta, fixturesByLeague) {
+  const result = [];
+
+  for (const meta of leaguesMeta) {
+    const fixtures = fixturesByLeague[meta.id] || [];
+
+    // Takımları topla
+    const teamsMap = {};
+    for (const f of fixtures) {
+      const h = f.teams.home;
+      const a = f.teams.away;
+      if (!teamsMap[h.id]) teamsMap[h.id] = { id: String(h.id), name: h.name, shortCode: h.name.substring(0,3).toUpperCase(), logo: h.logo };
+      if (!teamsMap[a.id]) teamsMap[a.id] = { id: String(a.id), name: a.name, shortCode: a.name.substring(0,3).toUpperCase(), logo: a.logo };
+    }
+
+    // Haftaları grupla
+    const weeksMap = {};
+    for (const f of fixtures) {
+      const round = f.league.round;
+      if (!weeksMap[round]) weeksMap[round] = [];
+      weeksMap[round].push({
+        id: String(f.fixture.id),
+        homeTeamId: String(f.teams.home.id),
+        awayTeamId: String(f.teams.away.id),
+        homeScore: f.goals.home,
+        awayScore: f.goals.away,
+      });
+    }
+
+    const matchweeks = Object.entries(weeksMap).map(([round, fixtureList]) => ({
+      matchweek: round,
+      fixtures: fixtureList,
+    }));
+
+    result.push({
+      id: meta.slug,
+      name: meta.name,
+      country: meta.country,
+      teams: Object.values(teamsMap),
+      zones: [],
+      matchweeks,
+    });
+  }
+
+  return { leagues: result };
+}
+
+module.exports = async (req, res) => {
+  const fixturesByLeague = {};
 
   for (const league of LEAGUES) {
-    console.log(`Çekiliyor: ${league.name}...`);
     try {
-      const data = await
+      console.log(`Çekiliyor: ${league.name}...`);
+      const data = await apiGet(`/fixtures?league=${league.id}&season=${SEASON}`);
+      fixturesByLeague[league.id] = data.response || [];
+      await new Promise(r => setTimeout(r, 1500));
+    } catch (err) {
+      console.error(`Hata (${league.name}):`, err.message);
+      fixturesByLeague[league.id] = [];
+    }
+  }
+
+  const leaguesJson = toLeaguesJson(LEAGUES, fixturesByLeague);
+  res.status(200).json({ success: true, leagues: leaguesJson });
+};

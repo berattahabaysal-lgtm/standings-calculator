@@ -1,0 +1,487 @@
+/* Theme: clean minimal layout, navy accent, off-white background */
+
+:root {
+  --color-bg: #f4f5f7;
+  --color-surface: hsl(0, 0%, 100%);
+  --color-text: #1a1d23;
+  --color-text-muted: #5c6370;
+  --color-border: #e2e5eb;
+  --color-accent: #1a3a5c;
+  --color-accent-hover: #142d47;
+  --color-accent-light: #e8eef4;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(26, 58, 92, 0.08);
+  --font: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg) var(--space-xl);
+  padding-top: 90px;
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 32px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.app-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #142d47;
+}
+
+.app-subtitle {
+  display: none;
+}
+
+.app-error {
+  background: #da1818;
+  color: #8b1a1a;
+  padding: var(--space-md);
+  border-radius: var(--radius);
+  margin-bottom: var(--space-lg);
+}
+
+.app-footer {
+  margin-top: var(--space-xl);
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.app-footer code {
+  font-size: 0.75rem;
+  background: var(--color-accent-light);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.section-title.standalone {
+  margin-bottom: var(--space-md);
+}
+
+/* League selector */
+
+.league-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 48px;
+}
+
+.league-selector-label {
+  display: none;
+}
+
+.league-select {
+  display: none;
+}
+
+.league-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: #f8f9fb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.league-btn:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
+  transform: translateY(-2px);
+}
+
+.league-btn.active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
+}
+
+.league-btn:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
+}
+
+.league-btn.active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-light);
+}
+
+.league-btn img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* Fixtures */
+
+.fixtures-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.matchweek-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.matchweek-label {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  min-width: 7rem;
+  text-align: center;
+}
+
+.fixture-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+/* Buttons */
+
+.btn {
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.btn-secondary {
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #d9e4ef;
+}
+
+.btn-nav {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Tables */
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  padding: var(--space-sm) var(--space-sm);
+  border-bottom: 2px solid var(--color-border);
+}
+
+td {
+  padding: 0.75rem var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Fixtures table layout */
+
+.fixtures-table .fixture-home {
+  text-align: right;
+  font-weight: 500;
+  width: 42%;
+}
+
+.fixtures-table .fixture-away {
+  text-align: left;
+  font-weight: 500;
+  width: 42%;
+}
+
+.fixture-score {
+  text-align: center;
+  width: 16%;
+  white-space: nowrap;
+}
+
+.score-separator {
+  margin: 0 0.35rem;
+  color: var(--color-text-muted);
+}
+
+.score-input {
+  width: 2.75rem;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.35rem 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+}
+
+.score-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  border-color: var(--color-accent);
+}
+
+/* Remove number input spinners for cleaner look */
+.score-input::-webkit-outer-spin-button,
+.score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.score-input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Standings table */
+
+.standings-table .col-position {
+  width: 2.5rem;
+  font-weight: 600;
+}
+
+.standings-table .col-team {
+  min-width: 10rem;
+}
+
+.standings-table .col-numeric {
+  width: 2.5rem;
+}
+
+.standings-table .col-points {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.zone-row {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--zone-color) 18%, transparent) 0%,
+    transparent 100%
+  );
+}
+
+.team-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.team-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.team-logo {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.team-name {
+  font-weight: 500;
+}
+
+/* Zone legend */
+
+.zone-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.zone-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.zone-swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+  .app {
+    padding: var(--space-md) var(--space-sm) var(--space-xl);
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+  }
+
+  .fixtures-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .matchweek-nav {
+    justify-content: center;
+  }
+
+  .fixtures-table .fixture-home,
+  .fixtures-table .fixture-away {
+    font-size: 0.875rem;
+  }
+
+  .score-input {
+    width: 2.25rem;
+    font-size: 0.9375rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.35rem;
+  }
+
+  .standings-table {
+    font-size: 0.875rem;
+  }
+}
+
+/* Ana üç kolonlu yerleşim */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+  width: 100%;
+}
+
+.main-layout .card {
+  margin-bottom: 0;
+}
+
+.ad-column {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  min-height: 400px;
+}
+
+[aria-label="Standings"] #standings {
+  max-height: 600px;
+  overflow-y: auto;
+}

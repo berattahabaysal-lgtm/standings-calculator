@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>League Standings Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1 class="app-title">Standings Calculator</h1>
+        <p class="app-subtitle">
+          Enter match scores and see how the table would look.
+        </p>
+        <div id="league-selector" class="league-selector"></div>
+      </header>
+
+      <p id="app-error" class="app-error" hidden></p>
+
+      
+
+      <div class="main-layout">
+        <section class="card" aria-label="Standings">
+          <h2 class="section-title standalone">Standings</h2>
+          <div id="standings"></div>
+        </section>
+      
+        <section class="card" aria-label="Fixtures">
+          <div id="fixtures"></div>
+        </section>
+      
+        <div class="ad-column"></div>
+      </div>
+
+      <footer class="app-footer">
+        <p>
+          Add leagues in <code>data/leagues.json</code> · Columns in
+          <code>js/standingsColumns.js</code>
+        </p>
+      </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

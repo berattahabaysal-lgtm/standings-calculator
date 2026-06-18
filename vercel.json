@@ -1,21 +1,9 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.html",
-        "use": "@vercel/static"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/$1"
-      }
-    ],
-    "crons": [
-      {
-        "path": "/api/fetch-fixtures",
-        "schedule": "0 6 * * *"
-      }
-    ]
-  }
+  "version": 2,
+  "crons": [
+    {
+      "path": "/api/fetch-fixtures",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

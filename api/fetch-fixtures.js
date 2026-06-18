@@ -11,7 +11,7 @@ const LEAGUES = [
   { id: 203, name: 'Süper Lig',      country: 'Turkey',  slug: 'super-lig'      },
 ];
 
-const SEASON = 2026;
+const SEASON = 2025;
 
 function apiGet(path) {
   return new Promise((resolve, reject) => {

@@ -40,7 +40,6 @@ function toLeaguesJson(leaguesMeta, fixturesByLeague) {
   for (const meta of leaguesMeta) {
     const fixtures = fixturesByLeague[meta.id] || [];
 
-    // Takımları topla
     const teamsMap = {};
     for (const f of fixtures) {
       const h = f.teams.home;
@@ -49,7 +48,6 @@ function toLeaguesJson(leaguesMeta, fixturesByLeague) {
       if (!teamsMap[a.id]) teamsMap[a.id] = { id: String(a.id), name: a.name, shortCode: a.name.substring(0,3).toUpperCase(), logo: a.logo };
     }
 
-    // Haftaları grupla
     const weeksMap = {};
     for (const f of fixtures) {
       const round = f.league.round;
@@ -86,16 +84,17 @@ module.exports = async (req, res) => {
 
   for (const league of LEAGUES) {
     try {
-      console.log(`Çekiliyor: ${league.name}...`);
       const data = await apiGet(`/fixtures?league=${league.id}&season=${SEASON}`);
       fixturesByLeague[league.id] = data.response || [];
       await new Promise(r => setTimeout(r, 1500));
     } catch (err) {
-      console.error(`Hata (${league.name}):`, err.message);
       fixturesByLeague[league.id] = [];
     }
   }
 
   const leaguesJson = toLeaguesJson(LEAGUES, fixturesByLeague);
-  res.status(200).json({ success: true, leagues: leaguesJson });
+
+  // Veriyi leagues.json formatında döndür
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).json(leaguesJson);
 };

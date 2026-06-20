@@ -1,6 +1,6 @@
 const https = require('https');
 
-const API_KEY = 'b7f4523a2534c0dd01afd053fd6191e1';
+const API_KEY = 'bbb4e8adabc9f6fb85883719770c2198';
 
 const LEAGUES = [
   { id: 39,  name: 'Premier League', country: 'England', slug: 'premier-league' },

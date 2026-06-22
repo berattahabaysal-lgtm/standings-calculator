@@ -86,7 +86,7 @@ module.exports = async (req, res) => {
     try {
       const data = await apiGet(`/fixtures?league=${league.id}&season=${SEASON}`);
       fixturesByLeague[league.id] = data.response || [];
-      await new Promise(r => setTimeout(r, 1500));
+      await new Promise(r => setTimeout(r, 500));
     } catch (err) {
       fixturesByLeague[league.id] = [];
     }

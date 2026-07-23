@@ -87,22 +87,11 @@ function selectLeague(leagueId) {
 
 async function init() {
   try {
-    // Önce API'den güncel veriyi çek
-    const apiResponse = await fetch("/api/fetch-fixtures");
-    if (apiResponse.ok) {
-      const apiData = await apiResponse.json();
-      if (apiData.leagues && apiData.leagues.length > 0) {
-        leagues = apiData.leagues;
-      }
-    }
-
-    // API çalışmazsa leagues.json'a düş
-    if (leagues.length === 0) {
-      const response = await fetch("./data/leagues.json");
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      leagues = data.leagues;
-    }
+    // Veriyi doğrudan leagues.json'dan yükle (API sistemi devre dışı)
+    const response = await fetch("./data/leagues.json");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    leagues = data.leagues;
 
     for (const league of leagues) {
       originalScoresByLeague.set(league.id, cloneOriginalScores(league));
